@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadari.id - Ruang Aman untuk Dirimu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4ecdc4;
+            --warning-color: #feca57;
+            --danger-color: #ff6b6b;
+            --text-primary: #2d3436;
+            --text-secondary: #636e72;
+            --text-light: #b2bec3;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --shadow-soft: 0 8px 32px rgba(102, 126, 234, 0.15);
+            --shadow-medium: 0 12px 40px rgba(102, 126, 234, 0.2);
+            --shadow-strong: 0 16px 48px rgba(102, 126, 234, 0.25);
+            --border-radius: 24px;
+            --border-radius-sm: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+
+        .navbar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            color: var(--text-primary) !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .hero-section {
+            padding: 120px 0 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></radialGradient></defs><circle cx="20" cy="20" r="2" fill="url(%23g)"/><circle cx="80" cy="30" r="1.5" fill="url(%23g)"/><circle cx="40" cy="70" r="1" fill="url(%23g)"/><circle cx="90" cy="80" r="2.5" fill="url(%23g)"/><circle cx="10" cy="60" r="1.2" fill="url(%23g)"/></svg>') repeat;
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .welcome-message {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .welcome-message h4 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .welcome-message p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 28px 20px;
+            margin: 16px 0;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .feature-card:active {
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .feature-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .panic-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--danger-color), #ff8787);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            box-shadow: var(--shadow-medium);
+            z-index: 1000;
+            animation: pulse 3s infinite;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .panic-button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .panic-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: var(--shadow-medium), 0 0 0 0 rgba(255, 107, 107, 0.7);
+            }
+            50% { 
+                box-shadow: var(--shadow-medium), 0 0 0 10px rgba(255, 107, 107, 0);
+            }
+        }
+
+        .modal-content {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: var(--shadow-strong);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--bg-gradient);
+            color: white;
+            border: none;
+            padding: 24px 24px 16px 24px;
+        }
+
+        .modal-body {
+            padding: 24px;
+            background: var(--card-bg);
+        }
+
+        .breathing-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success-color), var(--primary-color));
+            margin: 24px auto;
+            animation: breathe 4s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        @keyframes breathe {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: var(--shadow-soft);
+            }
+            50% { 
+                transform: scale(1.15);
+                box-shadow: var(--shadow-medium);
+            }
+        }
+
+        .emotion-tracker, .journal-section, .game-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 28px 24px;
+            margin: 20px 0;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .emotion-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .emotion-btn {
+            padding: 16px 12px;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: var(--border-radius-sm);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .emotion-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .emotion-btn:hover::before {
+            left: 100%;
+        }
+
+        .emotion-btn:hover, .emotion-btn.active {
+            background: var(--bg-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .journal-textarea {
+            width: 100%;
+            min-height: 160px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            resize: vertical;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .journal-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .game-canvas {
+            width: 100%;
+            height: 300px;
+            border-radius: var(--border-radius-sm);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: inset var(--shadow-soft);
+        }
+
+        .floating-star {
+            position: absolute;
+            animation: float 4s ease-in-out infinite;
+            cursor: pointer;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: transform 0.3s ease;
+        }
+
+        .floating-star:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+            }
+            33% { 
+                transform: translateY(-8px) rotate(5deg);
+            }
+            66% { 
+                transform: translateY(-4px) rotate(-5deg);
+            }
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .gallery-item {
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .affirmation-card {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 28px 24px;
+            border-radius: var(--border-radius-sm);
+            text-align: center;
+            margin: 12px 0;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .affirmation-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .affirmation-card h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .affirmation-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 24px 16px;
+            border-radius: var(--border-radius-sm);
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--bg-gradient);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            padding: 14px 28px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-primary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+            border-radius: var(--border-radius-sm);
+            padding: 12px 28px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Section styling */
+        section:not(#home):not(#features) {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Garden flowers */
+        #garden {
+            min-height: 120px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+                line-height: 1.3;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .panic-button {
+                width: 56px;
+                height: 56px;
+                font-size: 1.2rem;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .feature-card {
+                padding: 24px 20px;
+                margin: 12px 0;
+            }
+
+            .emotion-buttons {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .game-canvas {
+                height: 250px;
+            }
+
+            .breathing-circle {
+                width: 150px;
+                height: 150px;
+                font-size: 1rem;
+            }
+
+            section:not(#home):not(#features) {
+                margin: 16px;
+            }
+
+            .welcome-message, .emotion-tracker, .journal-section, .game-section {
+                padding: 20px 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .hero-section {
+                padding: 100px 0 40px 0;
+            }
+
+            .feature-card {
+                padding: 20px 16px;
+            }
+
+            .btn-primary, .btn-outline-primary {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; } var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(168, 218, 220, 0.4);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .panic-button {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-heart"></i> Sadari.id</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Fitur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Tentang</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">Selamat Datang di Sadari.id</h1>
+            <p class="hero-subtitle">Ruang aman untuk dirimu. Kamu tidak sendirian dalam perjalanan ini.</p>
+            
+            <div class="welcome-message">
+                <h4><i class="fas fa-heart text-danger"></i> Apa yang kamu butuhkan hari ini?</h4>
+                <p class="mb-0">Pilih salah satu opsi di bawah ini untuk memulai perjalanan self-compassion mu.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="section-title">Fitur Utama</h2>
+            
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="showSection('panic')">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-heart"></i>
+                        </div>
+                        <h4>Saya Sedang Cemas</h4>
+                        <p>Butuh bantuan segera? Gunakan fitur penenang darurat kami.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="showSection('education')">
+                        <div class="feature-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h4>Saya Ingin Belajar</h4>
+                        <p>Pelajari tentang self-harm dan cara mengatasinya dengan pendekatan yang empatik.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="showSection('reflection')">
+                        <div class="feature-icon">
+                            <i class="fas fa-journal-whills"></i>
+                        </div>
+                        <h4>Saya Ingin Menulis</h4>
+                        <p>Ekspresikan perasaanmu melalui jurnal refleksi dan pelacakan emosi.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="showSection('games')">
+                        <div class="feature-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h4>Saya Ingin Tenang</h4>
+                        <p>Mainkan game penenang untuk distraksi positif dan relaksasi.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="showSection('gallery')">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4>Galeri Healing</h4>
+                        <p>Jelajahi konten positif dan inspiratif dari komunitas.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="showSection('stats')">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Statistik Emosi</h4>
+                        <p>Pantau perkembangan emosionalmu dengan visualisasi yang mudah dipahami.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panic Button Content -->
+    <section id="panic-section" class="py-5 hidden">
+        <div class="container">
+            <h2 class="section-title">Penenang Darurat</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="feature-card text-center">
+                        <h4><i class="fas fa-music"></i> Audio Relaksasi</h4>
+                        <p>Dengarkan suara yang menenangkan</p>
+                        <button class="btn btn-primary" onclick="playAudio('rain')">
+                            <i class="fas fa-play"></i> Suara Hujan
+                        </button>
+                        <button class="btn btn-primary ms-2" onclick="playAudio('ocean')">
+                            <i class="fas fa-play"></i> Suara Ombak
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="feature-card text-center">
+                        <h4><i class="fas fa-lungs"></i> Panduan Napas</h4>
+                        <div class="breathing-circle" id="breathingCircle">
+                            Tarik Napas
+                        </div>
+                        <button class="btn btn-primary" onclick="startBreathing()">
+                            <i class="fas fa-play"></i> Mulai Latihan Napas
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="affirmation-card" id="affirmationCard">
+                <h4><i class="fas fa-heart"></i> Afirmasi Positif</h4>
+                <p id="affirmationText">Kamu berharga dan layak mendapatkan kebahagiaan. Emosi yang kamu rasakan saat ini adalah sementara.</p>
+                <button class="btn btn-light" onclick="showNewAffirmation()">
+                    <i class="fas fa-refresh"></i> Afirmasi Baru
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education-section" class="py-5 hidden">
+        <div class="container">
+            <h2 class="section-title">Edukasi Self-Harm</h2>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h4><i class="fas fa-info-circle"></i> Memahami Self-Harm</h4>
+                        <p>Self-harm adalah cara seseorang mengekspresikan atau mengatasi perasaan yang sulit. Ini bukan solusi jangka panjang, tapi ada cara yang lebih sehat untuk menghadapi emosi.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h4><i class="fas fa-lightbulb"></i> Alternatif Sehat</h4>
+                        <p>Coba teknik seperti: menulis jurnal, olahraga ringan, berbicara dengan teman, mendengarkan musik, atau melakukan aktivitas kreatif.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h4><i class="fas fa-hands-helping"></i> Kapan Mencari Bantuan</h4>
+                        <p>Jika kamu merasa kewalahan atau pikiran untuk menyakiti diri semakin sering, penting untuk berbicara dengan konselor atau psikolog.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reflection Section -->
+    <section id="reflection-section" class="py-5 hidden">
+        <div class="container">
+            <h2 class="section-title">Refleksi Diri</h2>
+            
+            <div class="emotion-tracker">
+                <h4><i class="fas fa-heart"></i> Bagaimana perasaanmu hari ini?</h4>
+                <div class="emotion-buttons">
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'bahagia')">😊 Bahagia</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'sedih')">😢 Sedih</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'marah')">😠 Marah</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'cemas')">😰 Cemas</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'bingung')">😕 Bingung</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'lelah')">😴 Lelah</button>
+                </div>
+                <button class="btn btn-primary" onclick="saveEmotion()">
+                    <i class="fas fa-save"></i> Simpan Perasaan
+                </button>
+            </div>
+            
+            <div class="journal-section">
+                <h4><i class="fas fa-pen"></i> Jurnal Harian</h4>
+                <p>Tulis apa yang ada di pikiranmu. Ini adalah ruang yang aman untukmu.</p>
+                <textarea class="journal-textarea" placeholder="Ceritakan tentang harimu, perasaanmu, atau hal apa pun yang ingin kamu ungkapkan..."></textarea>
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="saveJournal()">
+                        <i class="fas fa-save"></i> Simpan Jurnal
+                    </button>
+                    <button class="btn btn-outline-primary ms-2" onclick="clearJournal()">
+                        <i class="fas fa-eraser"></i> Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games-section" class="py-5 hidden">
+        <div class="container">
+            <h2 class="section-title">Game Penenang</h2>
+            
+            <div class="game-section">
+                <h4><i class="fas fa-star"></i> Langit Perasaan</h4>
+                <p>Tulis perasaanmu dan lepaskan ke langit malam. Setiap emosi akan berubah menjadi bintang yang indah.</p>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control mb-3" id="emotionInput" placeholder="Tulis perasaanmu..." style="border-radius: 15px; padding: 15px;">
+                        <button class="btn btn-primary" onclick="releaseEmotion()">
+                            <i class="fas fa-paper-plane"></i> Lepaskan ke Langit
+                        </button>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="game-canvas" id="skyCanvas">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #666;">
+                                <i class="fas fa-moon" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <p>Langit menunggumu untuk berbagi perasaan...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-section">
+                <h4><i class="fas fa-seedling"></i> Garden of Calm</h4>
+                <p>Tanam bunga virtual dan nikmati pesan afirmasi yang muncul.</p>
+                <div class="text-center">
+                    <button class="btn btn-primary" onclick="plantFlower()">
+                        <i class="fas fa-seedling"></i> Tanam Bunga
+                    </button>
+                    <div id="garden" style="margin-top: 20px; min-height: 100px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery-section" class="py-5 hidden">
+        <div class="container">
+            <h2 class="section-title">Galeri Healing</h2>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="affirmation-card">
+                        <h5>"Kamu lebih kuat dari yang kamu kira"</h5>
+                        <p>Setiap hari yang kamu lalui adalah bukti kekuatanmu.</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="affirmation-card" style="background: linear-gradient(45deg, #98d8c8, #a8dadc);">
+                        <h5>"Healing is not linear"</h5>
+                        <p>Proses penyembuhan tidak selalu lurus. Naik turun adalah bagian dari perjalanan.</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="affirmation-card" style="background: linear-gradient(45deg, #ff9a9e, #fecfef);">
+                        <h5>"You are enough"</h5>
+                        <p>Kamu sudah cukup, apa adanya. Tidak perlu menjadi sempurna.</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="affirmation-card" style="background: linear-gradient(45deg, #a8edea, #fed6e3);">
+                        <h5>"Breathe and let go"</h5>
+                        <p>Bernapas dalam-dalam dan lepaskan apa yang tidak bisa kamu kontrol.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats-section" class="py-5 hidden">
+        <div class="container">
+            <h2 class="section-title">Statistik Emosi</h2>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number" id="happyDays">0</div>
+                    <p>Hari Bahagia</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="journalEntries">0</div>
+                    <p>Jurnal Tertulis</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="breathingSessions">0</div>
+                    <p>Sesi Napas</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="starsReleased">0</div>
+                    <p>Bintang Dilepaskan</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h4><i class="fas fa-chart-pie"></i> Ringkasan Minggu Ini</h4>
+                <p>Emosi yang paling sering kamu rasakan minggu ini: <span id="dominantEmotion" class="fw-bold">Tenang</span></p>
+                <p>Kamu telah menggunakan fitur penenang <span id="calmingUsage" class="fw-bold">3 kali</span> minggu ini. Hebat!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panic Button -->
+    <button class="panic-button" onclick="quickPanic()" title="Bantuan Darurat">
+        <i class="fas fa-heart"></i>
+    </button>
+
+    <!-- Panic Modal -->
+    <div class="modal fade" id="panicModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-heart"></i> Kamu Tidak Sendirian</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-4">Tarik napas dalam-dalam. Kamu aman sekarang.</p>
+                    <div class="breathing-circle" id="modalBreathingCircle">
+                        Tarik Napas
+                    </div>
+                    <div class="affirmation-card">
+                        <p>Perasaan ini akan berlalu. Kamu memiliki kekuatan untuk melewati ini.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Data storage
+        let emotionData = JSON.parse(localStorage.getItem('emotionData')) || {};
+        let journalEntries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+        let stats = JSON.parse(localStorage.getItem('stats')) || {
+            happyDays: 0,
+            journalEntries: 0,
+            breathingSessions: 0,
+            starsReleased: 0
+        };
+
+        // Initialize stats display
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatsDisplay();
+        });
+
+        // Navigation functions
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                if (section.id.includes('-section')) {
+                    section.classList.add('hidden');
+                }
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Panic button functions
+        function quickPanic() {
+            const modal = new bootstrap.Modal(document.getElementById('panicModal'));
+            modal.show();
+            startModalBreathing();
+        }
+
+        function startBreathing() {
+            const circle = document.getElementById('breathingCircle');
+            const texts = ['Tarik Napas', 'Tahan', 'Buang Napas', 'Tahan'];
+            let currentIndex = 0;
+            
+            stats.breathingSessions++;
+            updateStatsDisplay();
+            saveStats();
+            
+            const breathingInterval = setInterval(() => {
+                circle.textContent = texts[currentIndex];
+                currentIndex = (currentIndex + 1) % texts.length;
+            }, 2000);
+            
+            setTimeout(() => {
+                clearInterval(breathingInterval);
+                circle.textContent = 'Selesai';
+                showNotification('Latihan napas selesai. Kamu hebat!');
+            }, 16000);
+        }
+
+        function startModalBreathing() {
+            const circle = document.getElementById('modalBreathingCircle');
+            const texts = ['Tarik Napas', 'Tahan', 'Buang Napas', 'Tahan'];
+            let currentIndex = 0;
+            
+            const breathingInterval = setInterval(() => {
+                circle.textContent = texts[currentIndex];
+                currentIndex = (currentIndex + 1) % texts.length;
+            }, 2000);
+            
+            setTimeout(() => {
+                clearInterval(breathingInterval);
+                circle.textContent = 'Lebih Baik';
+            }, 12000);
+        }
+
+        // Affirmation functions
+        const affirmations = [
+            "Kamu berharga dan layak mendapatkan kebahagiaan.",
+            "Emosi yang kamu rasakan saat ini adalah sementara.",
+            "Kamu memiliki kekuatan untuk melewati ini.",
+            "Setiap hari adalah kesempatan baru untuk memulai.",
+            "Kamu tidak sendirian dalam perjalanan ini.",
+            "Healing membutuhkan waktu, dan itu tidak apa-apa.",
+            "Kamu sudah cukup, apa adanya.",
+            "Perasaanmu valid dan penting.",
+            "Kamu layak mendapatkan cinta dan kebaikan.",
+            "Langkah kecil yang kamu ambil hari ini sangat berarti."
+        ];
+
+        function showNewAffirmation() {
+            const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+            document.getElementById('affirmationText').textContent = randomAffirmation;
+        }
+
+        // Audio functions
+        function playAudio(type) {
+            // Simulate audio playing
+            showNotification(`Memutar audio ${type === 'rain' ? 'hujan' : 'ombak'}...`);
+            
+            // In a real implementation, you would play actual audio files
+            // For demo purposes, we'll just show a notification
+            setTimeout(() => {
+                showNotification('Audio selesai diputar. Semoga kamu merasa lebih tenang.');
+            }, 3000);
+        }
+
+        // Emotion tracking functions
+        let selectedEmotion = '';
+
+        function selectEmotion(button, emotion) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.emotion-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to selected button
+            button.classList.add('active');
+            selectedEmotion = emotion;
+        }
+
+        function saveEmotion() {
+            if (!selectedEmotion) {
+                showNotification('Pilih salah satu emosi terlebih dahulu.');
+                return;
+            }
+            
+            const today = new Date().toDateString();
+            emotionData[today] = selectedEmotion;
+            
+            if (selectedEmotion === 'bahagia') {
+                stats.happyDays++;
+            }
+            
+            localStorage.setItem('emotionData', JSON.stringify(emotionData));
+            updateStatsDisplay();
+            saveStats();
+            
+            showNotification(`Perasaan "${selectedEmotion}" telah disimpan. Terima kasih sudah berbagi.`);
+            
+            // Reset selection
+            document.querySelectorAll('.emotion-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            selectedEmotion = '';
+        }
+
+        // Journal functions
+        function saveJournal() {
+            const journalText = document.querySelector('.journal-textarea').value.trim();
+            
+            if (!journalText) {
+                showNotification('Tulis sesuatu di jurnal terlebih dahulu.');
+                return;
+            }
+            
+            const entry = {
+                date: new Date().toLocaleString('id-ID'),
+                text: journalText
+            };
+            
+            journalEntries.push(entry);
+            stats.journalEntries++;
+            
+            localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+            updateStatsDisplay();
+            saveStats();
+            
+            showNotification('Jurnal berhasil disimpan. Terima kasih sudah berbagi perasaanmu.');
+            document.querySelector('.journal-textarea').value = '';
+        }
+
+        function clearJournal() {
+            document.querySelector('.journal-textarea').value = '';
+            showNotification('Jurnal telah dibersihkan.');
+        }
+
+        // Game functions
+        function releaseEmotion() {
+            const emotionInput = document.getElementById('emotionInput');
+            const emotionText = emotionInput.value.trim();
+            
+            if (!emotionText) {
+                showNotification('Tulis perasaanmu terlebih dahulu.');
+                return;
+            }
+            
+            createStar(emotionText);
+            emotionInput.value = '';
+            stats.starsReleased++;
+            updateStatsDisplay();
+            saveStats();
+            
+            showNotification('Emosimu valid. Kamu hebat sudah menghadapinya.');
+        }
+
+        function createStar(emotionText) {
+            const canvas = document.getElementById('skyCanvas');
+            const star = document.createElement('div');
+            
+            // Random position
+            const x = Math.random() * (canvas.offsetWidth - 50);
+            const y = Math.random() * (canvas.offsetHeight - 50);
+            
+            // Random color based on emotion
+            const colors = ['#ffd700', '#87ceeb', '#dda0dd', '#98fb98', '#f0e68c'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            star.className = 'floating-star';
+            star.innerHTML = '⭐';
+            star.style.left = x + 'px';
+            star.style.top = y + 'px';
+            star.style.color = color;
+            star.style.fontSize = '1.5rem';
+            star.title = emotionText;
+            
+            star.addEventListener('click', () => {
+                showNotification(`Emosi: "${emotionText}"`);
+            });
+            
+            canvas.appendChild(star);
+            
+            // Remove empty state message
+            const emptyMessage = canvas.querySelector('div[style*="position: absolute"]');
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+        }
+
+        function plantFlower() {
+            const garden = document.getElementById('garden');
+            const flower = document.createElement('div');
+            
+            const flowers = ['🌸', '🌺', '🌻', '🌷', '🌹', '🌼'];
+            const messages = [
+                'Kamu indah apa adanya',
+                'Setiap hari adalah berkah',
+                'Kamu layak bahagia',
+                'Terus tumbuh dan berkembang',
+                'Kamu unik dan spesial'
+            ];
+            
+            const randomFlower = flowers[Math.floor(Math.random() * flowers.length)];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            flower.style.fontSize = '2rem';
+            flower.style.cursor = 'pointer';
+            flower.style.transition = 'transform 0.3s ease';
+            flower.textContent = randomFlower;
+            flower.title = randomMessage;
+            
+            flower.addEventListener('click', () => {
+                showNotification(randomMessage);
+            });
+            
+            flower.addEventListener('mouseenter', () => {
+                flower.style.transform = 'scale(1.2)';
+            });
+            
+            flower.addEventListener('mouseleave', () => {
+                flower.style.transform = 'scale(1)';
+            });
+            
+            garden.appendChild(flower);
+            showNotification('Bunga berhasil ditanam! Klik bunga untuk melihat pesan afirmasi.');
+        }
+
+        // Stats functions
+        function updateStatsDisplay() {
+            document.getElementById('happyDays').textContent = stats.happyDays;
+            document.getElementById('journalEntries').textContent = stats.journalEntries;
+            document.getElementById('breathingSessions').textContent = stats.breathingSessions;
+            document.getElementById('starsReleased').textContent = stats.starsReleased;
+        }
+
+        function saveStats() {
+            localStorage.setItem('stats', JSON.stringify(stats));
+        }
+
+        // Notification function
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                color: white;
+                padding: 15px 20px;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                z-index: 1001;
+                max-width: 300px;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add CSS animations for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatsDisplay();
+            
+            // Show welcome notification
+            setTimeout(() => {
+                showNotification('Selamat datang di Sadari.id! Kamu tidak sendirian.');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
