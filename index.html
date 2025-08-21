@@ -7,6 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         :root {
             --primary-color: #667eea;
@@ -273,7 +274,7 @@
             }
         }
 
-        .emotion-tracker, .journal-section, .game-section {
+        .emotion-tracker, .journal-section, .game-section, .challenge-section {
             background: var(--card-bg);
             border-radius: var(--border-radius);
             padding: 28px 24px;
@@ -568,6 +569,81 @@
             gap: 12px;
         }
 
+        /* Challenge styling */
+        .challenge-item {
+            background: #f8f9fa;
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
+            margin: 12px 0;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .challenge-item.completed {
+            background: #d4edda;
+            border-color: var(--success-color);
+        }
+
+        .challenge-checkbox {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .challenge-points {
+            display: inline-block;
+            background: var(--bg-gradient);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .weekly-affirmation {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Breathing instruction styling */
+        .breathing-instruction {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .breathing-step {
+            margin: 8px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .breathing-step:last-child {
+            border-bottom: none;
+        }
+
         /* Mobile optimizations */
         @media (max-width: 768px) {
             .hero-title {
@@ -620,7 +696,7 @@
                 margin: 16px;
             }
 
-            .welcome-message, .emotion-tracker, .journal-section, .game-section {
+            .welcome-message, .emotion-tracker, .journal-section, .game-section, .challenge-section {
                 padding: 20px 16px;
             }
         }
@@ -664,60 +740,7 @@
         .feature-card:nth-child(3) { animation-delay: 0.3s; }
         .feature-card:nth-child(4) { animation-delay: 0.4s; }
         .feature-card:nth-child(5) { animation-delay: 0.5s; }
-        .feature-card:nth-child(6) { animation-delay: 0.6s; } var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            border-radius: 25px;
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(168, 218, 220, 0.4);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--text-color);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .panic-button {
-                width: 60px;
-                height: 60px;
-                font-size: 1.2rem;
-            }
-        }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
@@ -847,15 +870,23 @@
                 
                 <div class="col-md-6">
                     <div class="feature-card text-center">
-                        <h4><i class="fas fa-lungs"></i> Panduan Napas</h4>
+                        <h4><i class="fas fa-lungs"></i> Panduan Napas 4-7-8</h4>
                         <div class="breathing-circle" id="breathingCircle">
-                            Tarik Napas
+                            Siap untuk bernapas
                         </div>
-                        <button class="btn btn-primary" onclick="startBreathing()">
+                        <button class="btn btn-primary" onclick="startBreathing478()">
                             <i class="fas fa-play"></i> Mulai Latihan Napas
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <div class="breathing-instruction">
+                <h5><i class="fas fa-info-circle"></i> Teknik Pernapasan 4-7-8</h5>
+                <div class="breathing-step">1. <strong>Tarik napas lewat hidung selama 4 detik</strong> - Rasakan udara mengisi perut, bukan hanya dada</div>
+                <div class="breathing-step">2. <strong>Tahan napas selama 7 detik</strong></div>
+                <div class="breathing-step">3. <strong>Buang napas perlahan lewat mulut selama 8 detik</strong> - Bayangkan kelelahanmu ikut keluar</div>
+                <div class="breathing-step">4. <strong>Ulangi 2-3 kali</strong> atau sampai merasa lebih tenang</div>
             </div>
             
             <div class="affirmation-card" id="affirmationCard">
@@ -903,15 +934,22 @@
         <div class="container">
             <h2 class="section-title">Refleksi Diri</h2>
             
+            <!-- Weekly Challenge Section -->
+            <div class="challenge-section">
+                <h4><i class="fas fa-trophy"></i> Tantangan Mingguan Self-Compassion</h4>
+                <p>Selesaikan tantangan berikut untuk mendapatkan poin bonus dan memperkuat self-compassion mu!</p>
+                <div id="weeklyChallenge"></div>
+            </div>
+            
             <div class="emotion-tracker">
                 <h4><i class="fas fa-heart"></i> Bagaimana perasaanmu hari ini?</h4>
                 <div class="emotion-buttons">
-                    <button class="emotion-btn" onclick="selectEmotion(this, 'bahagia')">😊 Bahagia</button>
-                    <button class="emotion-btn" onclick="selectEmotion(this, 'sedih')">😢 Sedih</button>
-                    <button class="emotion-btn" onclick="selectEmotion(this, 'marah')">😠 Marah</button>
-                    <button class="emotion-btn" onclick="selectEmotion(this, 'cemas')">😰 Cemas</button>
-                    <button class="emotion-btn" onclick="selectEmotion(this, 'bingung')">😕 Bingung</button>
-                    <button class="emotion-btn" onclick="selectEmotion(this, 'lelah')">😴 Lelah</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'bahagia', 3)">😊 Bahagia</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'sedih', -2)">😢 Sedih</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'marah', -2)">😠 Marah</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'cemas', -2)">😰 Cemas</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'bingung', -1)">😕 Bingung</button>
+                    <button class="emotion-btn" onclick="selectEmotion(this, 'lelah', -1)">😴 Lelah</button>
                 </div>
                 <button class="btn btn-primary" onclick="saveEmotion()">
                     <i class="fas fa-save"></i> Simpan Perasaan
@@ -1017,6 +1055,21 @@
         <div class="container">
             <h2 class="section-title">Statistik Emosi</h2>
             
+            <!-- Weekly Affirmation -->
+            <div class="weekly-affirmation" id="weeklyAffirmation">
+                <h4><i class="fas fa-star"></i> Afirmasi Mingguan</h4>
+                <p id="weeklyAffirmationText">Loading...</p>
+                <div class="mt-3">
+                    <strong>Total Poin Minggu Ini: <span id="weeklyPoints">0</span></strong>
+                </div>
+            </div>
+
+            <!-- Daily Points Chart -->
+            <div class="chart-container">
+                <h4><i class="fas fa-chart-line"></i> Grafik Poin Harian (7 Hari Terakhir)</h4>
+                <canvas id="dailyPointsChart" width="400" height="200"></canvas>
+            </div>
+            
             <div class="stats-container">
                 <div class="stat-card">
                     <div class="stat-number" id="happyDays">0</div>
@@ -1076,7 +1129,10 @@
     <script>
         // Data storage
         let emotionData = JSON.parse(localStorage.getItem('emotionData')) || {};
+        let dailyPoints = JSON.parse(localStorage.getItem('dailyPoints')) || {};
+        let weeklyProgress = JSON.parse(localStorage.getItem('weeklyProgress')) || {};
         let journalEntries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+        let completedChallenges = JSON.parse(localStorage.getItem('completedChallenges')) || {};
         let stats = JSON.parse(localStorage.getItem('stats')) || {
             happyDays: 0,
             journalEntries: 0,
@@ -1084,9 +1140,112 @@
             starsReleased: 0
         };
 
+        // Weekly challenges bank
+        const challengeBank = [
+            "Tulis 3 hal yang kamu hargai dari dirimu hari ini",
+            "Ucapkan \"Aku layak dicintai\" 3 kali dengan tulus",
+            "Lakukan napas dalam selama 1 menit sambil menenangkan pikiran",
+            "Tuliskan 1 hal yang membuatmu bangga minggu ini, sekecil apa pun",
+            "Beri dirimu waktu 15 menit untuk melakukan hal yang kamu sukai",
+            "Peluk dirimu sendiri selama 10 detik sambil menarik napas pelan",
+            "Maafkan diri sendiri atas 1 hal yang kamu sesali hari ini",
+            "Tuliskan 1 kalimat dukungan seolah kamu menasihati sahabatmu",
+            "Ingatkan diri bahwa \"Aku manusia, wajar jika melakukan kesalahan\"",
+            "Nikmati 1 makanan/minuman favoritmu tanpa rasa bersalah",
+            "Jeda 5 menit untuk hanya duduk tenang tanpa memikirkan apa pun",
+            "Sebutkan 3 kekuatan atau kelebihan yang kamu punya",
+            "Menatap cermin dan tersenyum pada diri sendiri",
+            "Lakukan gerakan peregangan sambil berterima kasih pada tubuhmu",
+            "Tulis surat singkat berisi kata-kata lembut untuk dirimu di masa sulit"
+        ];
+
+        // Garden of Calm affirmations
+        const gardenAffirmations = [
+            "Perasaanmu valid, sekecil apa pun itu",
+            "Ketenangan bukan tujuan akhir, tapi hak setiap hari",
+            "Tidak semua hari harus produktif",
+            "Kamu boleh berkata, \"Aku butuh waktu.\"",
+            "Hidup tidak harus sempurna untuk bisa disyukuri",
+            "Kesedihan tidak membuatmu lemah",
+            "Kamu pantas mendapatkan hal-hal baik",
+            "Berdiam bukan berarti mundur",
+            "Kebaikan kecil yang kamu lakukan tetap berarti",
+            "Kamu berhak merasa cukup dengan dirimu sendiri",
+            "Kamu tidak harus menjelaskan semua hal kepada semua orang",
+            "Memaafkan diri sendiri juga bentuk keberanian",
+            "Kamu boleh tidak baik-baik saja hari ini",
+            "Tidak semua hal harus kamu tanggung sendirian",
+            "Hanya karena kamu terjatuh, bukan berarti kamu gagal",
+            "Mengambil jeda juga bagian dari bertumbuh",
+            "Apa yang kamu rasakan hari ini tidak akan selamanya",
+            "Kamu tetap berharga, bahkan di saat terburukmu",
+            "Kesembuhan bukan garis lurus, dan itu tidak apa-apa"
+        ];
+
+        // Weekly affirmations by category
+        const weeklyAffirmations = {
+            crisis: [
+                "Minggu ini mungkin terasa sangat berat bagimu, tapi ingat, setiap badai pasti berlalu. Kamu masih punya kesempatan untuk memulai kembali besok.",
+                "Tidak apa-apa jika minggu ini penuh air mata dan rasa lelah. Yang penting kamu tetap bernapas dan bertahan sejauh ini.",
+                "Kamu berharga, bahkan ketika perasaanmu kacau. Jangan lupakan bahwa ada orang yang peduli padamu."
+            ],
+            struggling: [
+                "Perlahan saja, kamu tidak perlu terburu-buru untuk merasa lebih baik. Pemulihan membutuhkan waktu, dan itu wajar.",
+                "Kamu sudah melakukan yang terbaik yang kamu bisa di minggu ini, dan itu adalah sesuatu yang patut kamu syukuri.",
+                "Istirahatlah sejenak, lepaskan beban, lalu lanjutkan langkah kecilmu ke depan."
+            ],
+            improving: [
+                "Mungkin minggu ini belum sesuai harapan, tapi perjalananmu belum selesai. Masih banyak kesempatan untuk memperbaikinya.",
+                "Rayakan setiap kemajuan kecil, karena dari langkah kecil itulah lahir perubahan besar.",
+                "Sedikit demi sedikit, energi positif akan kembali padamu jika kamu terus mencoba."
+            ],
+            stable: [
+                "Kamu berhasil melewati minggu ini meski penuh tantangan, itu membuktikan ketangguhanmu.",
+                "Tidak perlu selalu sempurna, yang terpenting kamu tetap mencoba dan tidak menyerah.",
+                "Lanjutkan langkah ini, karena kamu sedang membangun kekuatan yang luar biasa di dalam dirimu."
+            ],
+            balanced: [
+                "Kamu sudah cukup baik menyeimbangkan berbagai perasaan minggu ini. Itu tanda kamu mulai mengendalikan emosimu dengan baik.",
+                "Lihatlah, kamu mampu menjaga energi positif meski ada rintangan di tengah jalan.",
+                "Pertahankan semangat ini, karena sedikit demi sedikit kamu sedang membentuk versi dirimu yang lebih kuat."
+            ],
+            healthy: [
+                "Kamu berada di jalur yang bagus untuk menjaga kesehatan emosimu. Minggu ini penuh usaha yang patut diapresiasi.",
+                "Keseimbangan yang kamu bangun sangat berarti. Itu menunjukkan kedewasaan dalam menghadapi hidup.",
+                "Hebat! Minggu ini kamu telah banyak menjaga suasana hati tetap positif, dan itu berdampak baik untuk dirimu."
+            ],
+            thriving: [
+                "Energi positifmu luar biasa minggu ini, teruskan! Kamu menjadi bukti bahwa hati yang dijaga akan membawa ketenangan.",
+                "Kamu telah membawa banyak kebahagiaan untuk dirimu sendiri dan mungkin juga untuk orang di sekitarmu.",
+                "Minggu ini penuh warna cerah berkat usahamu menjaga hati tetap bahagia dan pikiran tetap jernih."
+            ],
+            radiant: [
+                "Sempurna! Minggu ini kamu benar-benar bersinar dan memancarkan energi positif ke mana pun kamu pergi.",
+                "Kebahagiaanmu begitu menular, membuat orang di sekitarmu ikut merasakan kehangatan dan semangatmu.",
+                "Kamu adalah bukti nyata bahwa pikiran positif mampu mengubah hari-hari menjadi luar biasa."
+            ]
+        };
+
+        // Standard affirmations
+        const affirmations = [
+            "Kamu berharga dan layak mendapatkan kebahagiaan.",
+            "Emosi yang kamu rasakan saat ini adalah sementara.",
+            "Kamu memiliki kekuatan untuk melewati ini.",
+            "Setiap hari adalah kesempatan baru untuk memulai.",
+            "Kamu tidak sendirian dalam perjalanan ini.",
+            "Healing membutuhkan waktu, dan itu tidak apa-apa.",
+            "Kamu sudah cukup, apa adanya.",
+            "Perasaanmu valid dan penting.",
+            "Kamu layak mendapatkan cinta dan kebaikan.",
+            "Langkah kecil yang kamu ambil hari ini sangat berarti."
+        ];
+
         // Initialize stats display
         document.addEventListener('DOMContentLoaded', function() {
             updateStatsDisplay();
+            generateWeeklyChallenges();
+            updateWeeklyAffirmation();
+            createDailyPointsChart();
         });
 
         // Navigation functions
@@ -1106,6 +1265,154 @@
             }
         }
 
+        // Weekly Challenge Functions
+        function generateWeeklyChallenges() {
+            const currentWeek = getWeekNumber();
+            const challengeContainer = document.getElementById('weeklyChallenge');
+            
+            if (!weeklyProgress[currentWeek]) {
+                // Generate 3 random challenges for this week
+                const shuffled = [...challengeBank].sort(() => 0.5 - Math.random());
+                weeklyProgress[currentWeek] = {
+                    challenges: shuffled.slice(0, 3),
+                    completed: []
+                };
+                localStorage.setItem('weeklyProgress', JSON.stringify(weeklyProgress));
+            }
+            
+            const currentChallenges = weeklyProgress[currentWeek];
+            challengeContainer.innerHTML = '';
+            
+            currentChallenges.challenges.forEach((challenge, index) => {
+                const isCompleted = currentChallenges.completed.includes(index);
+                const challengeDiv = document.createElement('div');
+                challengeDiv.className = `challenge-item ${isCompleted ? 'completed' : ''}`;
+                challengeDiv.innerHTML = `
+                    <h6>${challenge}</h6>
+                    <span class="challenge-points">+1 poin</span>
+                    <input type="checkbox" class="challenge-checkbox" 
+                           ${isCompleted ? 'checked' : ''} 
+                           onchange="toggleChallenge(${index})"
+                           ${isCompleted ? 'disabled' : ''}>
+                `;
+                challengeContainer.appendChild(challengeDiv);
+            });
+        }
+
+        function toggleChallenge(challengeIndex) {
+            const currentWeek = getWeekNumber();
+            if (!weeklyProgress[currentWeek].completed.includes(challengeIndex)) {
+                weeklyProgress[currentWeek].completed.push(challengeIndex);
+                localStorage.setItem('weeklyProgress', JSON.stringify(weeklyProgress));
+                generateWeeklyChallenges();
+                updateWeeklyAffirmation();
+                createDailyPointsChart();
+                showNotification('Tantangan selesai! +1 poin bonus untuk kamu 🎉');
+            }
+        }
+
+        function getWeekNumber() {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 1);
+            const diff = now - start;
+            const oneWeek = 1000 * 60 * 60 * 24 * 7;
+            return Math.floor(diff / oneWeek);
+        }
+
+        // Points calculation functions
+        function calculateWeeklyPoints() {
+            const currentWeek = getWeekNumber();
+            const last7Days = getLast7Days();
+            let totalPoints = 0;
+            
+            // Calculate daily emotion points
+            last7Days.forEach(date => {
+                if (dailyPoints[date]) {
+                    totalPoints += dailyPoints[date];
+                }
+            });
+            
+            // Add challenge bonus points
+            if (weeklyProgress[currentWeek]) {
+                totalPoints += weeklyProgress[currentWeek].completed.length;
+            }
+            
+            return totalPoints;
+        }
+
+        function getEmotionCategory(points) {
+            if (points >= -14 && points <= -11) return 'crisis';
+            if (points >= -10 && points <= -5) return 'struggling';
+            if (points >= -4 && points <= -1) return 'improving';
+            if (points >= 1 && points <= 5) return 'stable';
+            if (points >= 6 && points <= 9) return 'balanced';
+            if (points >= 10 && points <= 15) return 'healthy';
+            if (points >= 16 && points <= 20) return 'thriving';
+            if (points >= 21 && points <= 24) return 'radiant';
+            return 'stable'; // default
+        }
+
+        function updateWeeklyAffirmation() {
+            const weeklyPoints = calculateWeeklyPoints();
+            const category = getEmotionCategory(weeklyPoints);
+            const categoryAffirmations = weeklyAffirmations[category];
+            const randomAffirmation = categoryAffirmations[Math.floor(Math.random() * categoryAffirmations.length)];
+            
+            document.getElementById('weeklyAffirmationText').textContent = randomAffirmation;
+            document.getElementById('weeklyPoints').textContent = weeklyPoints;
+        }
+
+        function getLast7Days() {
+            const dates = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                dates.push(date.toDateString());
+            }
+            return dates;
+        }
+
+        function createDailyPointsChart() {
+            const ctx = document.getElementById('dailyPointsChart').getContext('2d');
+            const last7Days = getLast7Days();
+            const labels = last7Days.map(date => {
+                const d = new Date(date);
+                return d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' });
+            });
+            const data = last7Days.map(date => dailyPoints[date] || 0);
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Poin Harian',
+                        data: data,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            min: -3,
+                            max: 4
+                        }
+                    }
+                }
+            });
+        }
+
         // Panic button functions
         function quickPanic() {
             const modal = new bootstrap.Modal(document.getElementById('panicModal'));
@@ -1113,25 +1420,43 @@
             startModalBreathing();
         }
 
-        function startBreathing() {
+        function startBreathing478() {
             const circle = document.getElementById('breathingCircle');
-            const texts = ['Tarik Napas', 'Tahan', 'Buang Napas', 'Tahan'];
-            let currentIndex = 0;
+            const steps = [
+                { text: 'Siap...', duration: 1000 },
+                { text: 'Tarik Napas (4)', duration: 4000 },
+                { text: 'Tahan (7)', duration: 7000 },
+                { text: 'Buang Napas (8)', duration: 8000 }
+            ];
             
             stats.breathingSessions++;
             updateStatsDisplay();
             saveStats();
             
-            const breathingInterval = setInterval(() => {
-                circle.textContent = texts[currentIndex];
-                currentIndex = (currentIndex + 1) % texts.length;
-            }, 2000);
+            let currentStep = 0;
             
-            setTimeout(() => {
-                clearInterval(breathingInterval);
-                circle.textContent = 'Selesai';
-                showNotification('Latihan napas selesai. Kamu hebat!');
-            }, 16000);
+            function executeStep() {
+                if (currentStep < steps.length) {
+                    circle.textContent = steps[currentStep].text;
+                    setTimeout(() => {
+                        currentStep++;
+                        if (currentStep < steps.length) {
+                            executeStep();
+                        } else {
+                            // Repeat cycle 3 times
+                            if (currentStep < steps.length * 3) {
+                                currentStep = 1; // Skip "Siap..." for subsequent cycles
+                                executeStep();
+                            } else {
+                                circle.textContent = 'Selesai 💫';
+                                showNotification('Latihan napas 4-7-8 selesai. Kamu hebat!');
+                            }
+                        }
+                    }, steps[currentStep].duration);
+                }
+            }
+            
+            executeStep();
         }
 
         function startModalBreathing() {
@@ -1151,19 +1476,6 @@
         }
 
         // Affirmation functions
-        const affirmations = [
-            "Kamu berharga dan layak mendapatkan kebahagiaan.",
-            "Emosi yang kamu rasakan saat ini adalah sementara.",
-            "Kamu memiliki kekuatan untuk melewati ini.",
-            "Setiap hari adalah kesempatan baru untuk memulai.",
-            "Kamu tidak sendirian dalam perjalanan ini.",
-            "Healing membutuhkan waktu, dan itu tidak apa-apa.",
-            "Kamu sudah cukup, apa adanya.",
-            "Perasaanmu valid dan penting.",
-            "Kamu layak mendapatkan cinta dan kebaikan.",
-            "Langkah kecil yang kamu ambil hari ini sangat berarti."
-        ];
-
         function showNewAffirmation() {
             const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
             document.getElementById('affirmationText').textContent = randomAffirmation;
@@ -1171,11 +1483,7 @@
 
         // Audio functions
         function playAudio(type) {
-            // Simulate audio playing
             showNotification(`Memutar audio ${type === 'rain' ? 'hujan' : 'ombak'}...`);
-            
-            // In a real implementation, you would play actual audio files
-            // For demo purposes, we'll just show a notification
             setTimeout(() => {
                 showNotification('Audio selesai diputar. Semoga kamu merasa lebih tenang.');
             }, 3000);
@@ -1183,16 +1491,16 @@
 
         // Emotion tracking functions
         let selectedEmotion = '';
+        let selectedPoints = 0;
 
-        function selectEmotion(button, emotion) {
-            // Remove active class from all buttons
+        function selectEmotion(button, emotion, points) {
             document.querySelectorAll('.emotion-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Add active class to selected button
             button.classList.add('active');
             selectedEmotion = emotion;
+            selectedPoints = points;
         }
 
         function saveEmotion() {
@@ -1203,22 +1511,27 @@
             
             const today = new Date().toDateString();
             emotionData[today] = selectedEmotion;
+            dailyPoints[today] = selectedPoints;
             
             if (selectedEmotion === 'bahagia') {
                 stats.happyDays++;
             }
             
             localStorage.setItem('emotionData', JSON.stringify(emotionData));
+            localStorage.setItem('dailyPoints', JSON.stringify(dailyPoints));
             updateStatsDisplay();
+            updateWeeklyAffirmation();
+            createDailyPointsChart();
             saveStats();
             
-            showNotification(`Perasaan "${selectedEmotion}" telah disimpan. Terima kasih sudah berbagi.`);
+            showNotification(`Perasaan "${selectedEmotion}" telah disimpan dengan ${selectedPoints > 0 ? '+' : ''}${selectedPoints} poin.`);
             
             // Reset selection
             document.querySelectorAll('.emotion-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             selectedEmotion = '';
+            selectedPoints = 0;
         }
 
         // Journal functions
@@ -1308,16 +1621,8 @@
             const flower = document.createElement('div');
             
             const flowers = ['🌸', '🌺', '🌻', '🌷', '🌹', '🌼'];
-            const messages = [
-                'Kamu indah apa adanya',
-                'Setiap hari adalah berkah',
-                'Kamu layak bahagia',
-                'Terus tumbuh dan berkembang',
-                'Kamu unik dan spesial'
-            ];
-            
             const randomFlower = flowers[Math.floor(Math.random() * flowers.length)];
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            const randomMessage = gardenAffirmations[Math.floor(Math.random() * gardenAffirmations.length)];
             
             flower.style.fontSize = '2rem';
             flower.style.cursor = 'pointer';
@@ -1355,7 +1660,6 @@
 
         // Notification function
         function showNotification(message) {
-            // Create notification element
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
@@ -1378,7 +1682,6 @@
             
             document.body.appendChild(notification);
             
-            // Remove notification after 3 seconds
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => {
@@ -1405,8 +1708,9 @@
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             updateStatsDisplay();
+            generateWeeklyChallenges();
+            updateWeeklyAffirmation();
             
-            // Show welcome notification
             setTimeout(() => {
                 showNotification('Selamat datang di Sadari.id! Kamu tidak sendirian.');
             }, 1000);
