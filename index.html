@@ -1066,7 +1066,15 @@
 
             <!-- Daily Points Chart -->
             <div class="chart-container">
-                <h4><i class="fas fa-chart-line"></i> Grafik Poin Harian (7 Hari Terakhir)</h4>
+                <h4><i class="fas fa-chart-line"></i> Grafik Mood Minggu Ini (Senin - Minggu)</h4>
+                <p class="text-muted mb-3">
+                    <i class="fas fa-info-circle"></i> 
+                    Grafik akan naik-turun sesuai mood harianmu. 
+                    <span style="color: #4ecdc4;">●</span> Baik (+2/+3), 
+                    <span style="color: #feca57;">●</span> Netral (0/+1), 
+                    <span style="color: #ff9f43;">●</span> Agak Buruk (-1), 
+                    <span style="color: #ff6b6b;">●</span> Buruk (-2)
+                </p>
                 <canvas id="dailyPointsChart" width="400" height="200"></canvas>
             </div>
             
@@ -1322,11 +1330,11 @@
         // Points calculation functions
         function calculateWeeklyPoints() {
             const currentWeek = getWeekNumber();
-            const last7Days = getLast7Days();
+            const weekDates = getCurrentWeekDates(); // Menggunakan Senin-Minggu
             let totalPoints = 0;
             
-            // Calculate daily emotion points
-            last7Days.forEach(date => {
+            // Calculate daily emotion points untuk minggu ini
+            weekDates.forEach(date => {
                 if (dailyPoints[date]) {
                     totalPoints += dailyPoints[date];
                 }
@@ -1362,51 +1370,96 @@
             document.getElementById('weeklyPoints').textContent = weeklyPoints;
         }
 
-        function getLast7Days() {
-            const dates = [];
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                dates.push(date.toDateString());
+        function getCurrentWeekDates() {
+            const today = new Date();
+            const currentDay = today.getDay(); // 0 = Minggu, 1 = Senin, dst
+            const monday = new Date(today);
+            
+            // Hitung hari Senin minggu ini
+            const daysFromMonday = currentDay === 0 ? 6 : currentDay - 1; // Jika hari Minggu, mundur 6 hari
+            monday.setDate(today.getDate() - daysFromMonday);
+            
+            const weekDates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                weekDates.push(date.toDateString());
             }
-            return dates;
+            return weekDates;
         }
 
         function createDailyPointsChart() {
             const ctx = document.getElementById('dailyPointsChart').getContext('2d');
-            const last7Days = getLast7Days();
-            const labels = last7Days.map(date => {
-                const d = new Date(date);
-                return d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' });
-            });
-            const data = last7Days.map(date => dailyPoints[date] || 0);
             
-            new Chart(ctx, {
+            // Hancurkan chart yang ada jika ada
+            if (window.dailyChart) {
+                window.dailyChart.destroy();
+            }
+            
+            const weekDates = getCurrentWeekDates();
+            const labels = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+            const data = weekDates.map(date => dailyPoints[date] || 0);
+            
+            // Buat warna titik berdasarkan nilai poin
+            const pointColors = data.map(point => {
+                if (point >= 2) return '#4ecdc4'; // Hijau untuk mood baik
+                if (point >= 0) return '#feca57'; // Kuning untuk netral
+                if (point >= -1) return '#ff9f43'; // Orange untuk agak buruk
+                return '#ff6b6b'; // Merah untuk mood buruk
+            });
+            
+            window.dailyChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Poin Harian',
+                        label: 'Poin Mood Harian',
                         data: data,
                         borderColor: '#667eea',
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
                         borderWidth: 3,
                         fill: true,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointBackgroundColor: pointColors,
+                        pointBorderColor: pointColors,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
                         legend: {
-                            display: false
+                            display: true
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const point = context.parsed.y;
+                                    let mood = '';
+                                    if (point >= 2) mood = '😊 Mood Baik';
+                                    else if (point >= 0) mood = '😐 Mood Netral';
+                                    else if (point >= -1) mood = '😔 Agak Sedih';
+                                    else mood = '😢 Mood Buruk';
+                                    
+                                    return `${mood} (${point > 0 ? '+' : ''}${point} poin)`;
+                                }
+                            }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
                             min: -3,
-                            max: 4
+                            max: 4,
+                            ticks: {
+                                callback: function(value) {
+                                    if (value >= 2) return '😊 +' + value;
+                                    if (value >= 0) return '😐 ' + value;
+                                    if (value >= -1) return '😔 ' + value;
+                                    return '😢 ' + value;
+                                }
+                            }
                         }
                     }
                 }
