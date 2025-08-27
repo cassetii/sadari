@@ -10,22 +10,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --accent-color: #f093fb;
-            --success-color: #4ecdc4;
-            --warning-color: #feca57;
-            --danger-color: #ff6b6b;
+            --primary-color: #0c74b9;
+            --secondary-color: #4db3d6;
+            --accent-color: #95d7eb;
+            --success-color: #47bf91;
+            --warning-color: #8bdac7;
+            --danger-color: #0c74b9;
             --text-primary: #2d3436;
             --text-secondary: #636e72;
             --text-light: #b2bec3;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-gradient: linear-gradient(135deg, #0c74b9 0%, #4db3d6 50%, #95d7eb 100%);
             --bg-light: #f8f9fa;
             --card-bg: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.25);
-            --shadow-soft: 0 8px 32px rgba(102, 126, 234, 0.15);
-            --shadow-medium: 0 12px 40px rgba(102, 126, 234, 0.2);
-            --shadow-strong: 0 16px 48px rgba(102, 126, 234, 0.25);
+            --glass-bg: rgba(149, 215, 235, 0.25);
+            --shadow-soft: 0 8px 32px rgba(12, 116, 185, 0.15);
+            --shadow-medium: 0 12px 40px rgba(12, 116, 185, 0.2);
+            --shadow-strong: 0 16px 48px rgba(12, 116, 185, 0.25);
             --border-radius: 24px;
             --border-radius-sm: 16px;
         }
@@ -196,14 +196,14 @@
             right: 24px;
             width: 64px;
             height: 64px;
-            background: linear-gradient(135deg, var(--danger-color), #ff8787);
+            background: linear-gradient(135deg, #0c74b9, #4db3d6);
             border-radius: 50%;
             border: none;
             color: white;
             font-size: 1.4rem;
             box-shadow: var(--shadow-medium);
             z-index: 1000;
-            animation: pulse 3s infinite;
+            animation: heartbeat 2s infinite;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             align-items: center;
@@ -213,18 +213,27 @@
         .panic-button:hover {
             transform: scale(1.1);
             box-shadow: var(--shadow-strong);
+            background: linear-gradient(135deg, #47bf91, #8bdac7);
         }
 
         .panic-button:active {
             transform: scale(0.95);
         }
 
-        @keyframes pulse {
+        @keyframes heartbeat {
             0%, 100% { 
-                box-shadow: var(--shadow-medium), 0 0 0 0 rgba(255, 107, 107, 0.7);
+                box-shadow: var(--shadow-medium), 0 0 0 0 rgba(12, 116, 185, 0.7);
+                transform: scale(1);
+            }
+            25% { 
+                transform: scale(1.05);
             }
             50% { 
-                box-shadow: var(--shadow-medium), 0 0 0 10px rgba(255, 107, 107, 0);
+                box-shadow: var(--shadow-medium), 0 0 0 10px rgba(12, 116, 185, 0);
+                transform: scale(1);
+            }
+            75% {
+                transform: scale(1.05);
             }
         }
 
@@ -251,7 +260,7 @@
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--success-color), var(--primary-color));
+            background: linear-gradient(135deg, #47bf91, #8bdac7);
             margin: 24px auto;
             animation: breathe 4s ease-in-out infinite;
             display: flex;
@@ -267,10 +276,12 @@
             0%, 100% { 
                 transform: scale(1);
                 box-shadow: var(--shadow-soft);
+                background: linear-gradient(135deg, #47bf91, #8bdac7);
             }
             50% { 
                 transform: scale(1.15);
                 box-shadow: var(--shadow-medium);
+                background: linear-gradient(135deg, #8bdac7, #95d7eb);
             }
         }
 
@@ -1070,10 +1081,10 @@
                 <p class="text-muted mb-3">
                     <i class="fas fa-info-circle"></i> 
                     Grafik akan naik-turun sesuai mood harianmu. 
-                    <span style="color: #4ecdc4;">●</span> Baik (+2/+3), 
-                    <span style="color: #feca57;">●</span> Netral (0/+1), 
-                    <span style="color: #ff9f43;">●</span> Agak Buruk (-1), 
-                    <span style="color: #ff6b6b;">●</span> Buruk (-2)
+                    <span style="color: #47bf91;">●</span> Baik (+2/+3), 
+                    <span style="color: #8bdac7;">●</span> Netral (0/+1), 
+                    <span style="color: #4db3d6;">●</span> Agak Buruk (-1), 
+                    <span style="color: #0c74b9;">●</span> Buruk (-2)
                 </p>
                 <canvas id="dailyPointsChart" width="400" height="200"></canvas>
             </div>
@@ -1402,10 +1413,10 @@
             
             // Buat warna titik berdasarkan nilai poin
             const pointColors = data.map(point => {
-                if (point >= 2) return '#4ecdc4'; // Hijau untuk mood baik
-                if (point >= 0) return '#feca57'; // Kuning untuk netral
-                if (point >= -1) return '#ff9f43'; // Orange untuk agak buruk
-                return '#ff6b6b'; // Merah untuk mood buruk
+                if (point >= 2) return '#47bf91'; // Hijau untuk mood baik
+                if (point >= 0) return '#8bdac7'; // Mint untuk netral
+                if (point >= -1) return '#4db3d6'; // Biru untuk agak buruk
+                return '#0c74b9'; // Biru tua untuk mood buruk
             });
             
             window.dailyChart = new Chart(ctx, {
@@ -1415,8 +1426,8 @@
                     datasets: [{
                         label: 'Poin Mood Harian',
                         data: data,
-                        borderColor: '#667eea',
-                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderColor: '#0c74b9',
+                        backgroundColor: 'rgba(149, 215, 235, 0.2)',
                         borderWidth: 3,
                         fill: true,
                         tension: 0.4,
